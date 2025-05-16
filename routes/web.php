@@ -32,6 +32,7 @@ Route::prefix('campeonatos')
     Route::get('/create', 'create')->name('create');
     Route::post('/', 'store')->name('store');
     Route::get('/{campeonato}/edit', 'edit')->name('edit');
+    Route::put('/{campeonato}', 'update')->name('update');
 });
 
 Route::middleware('auth')->group(function () {
