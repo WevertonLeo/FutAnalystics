@@ -2,8 +2,16 @@
 
 @section('content')
 <div class="container py-4">
-    <h2 class="mb-4 fw-bold text-primary">🏆 Campeonatos</h2>
-
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
+                <h2 class="fw-bold mb-2 mb-md-0 text-primary">🏆 Campeonatos</h2>
+                <a href="{{ route('campeonatos.create') }}" class="btn btn-success shadow-sm">
+                    <i class="bi bi-plus-circle me-1"></i> Novo Campeonato
+                </a>
+            </div>
+        </div>
+    </div>
     @if ($campeonatos->isEmpty())
         <div class="alert alert-info">
             Nenhum campeonato cadastrado ainda.
