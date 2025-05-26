@@ -36,7 +36,7 @@
             .sidebar {
                 position: fixed;
                 z-index: 1040;
-                width: 250px;
+                width: 260px;
                 left: -250px;
                 top: 0;
                 bottom: 0;
@@ -70,10 +70,18 @@
         <h4 class="logo-title mb-4"><i class="bi bi-trophy-fill me-2"></i>FutAnalytics</h4>
         <ul class="nav flex-column mb-auto">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="#">
+                <a class="nav-link {{ (request()->is('dashboard') || request()->is('*')) ? 'active' : '' }}" href=" {{ route('dashboard') }} ">
                     <i class="bi bi-speedometer2 me-2"></i> Dashboard
                 </a>
             </li>
+        @guest
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('login') ? 'active' : '' }}" href=" {{ route('login') }}">
+                    <i class="bi bi-box-arrow-in-right me-2"></i> Logar
+                </a>
+            </li>
+        @endguest
+        @auth
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('times*') ? 'active' : '' }}" href="#">
                     <i class="bi bi-people-fill me-2"></i> Times
@@ -81,32 +89,24 @@
             </li>
             <!-- Campeonatos com submenu -->
             <li class="nav-item">
-                <a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse" href="#submenuCampeonatos" role="button" aria-expanded="{{ request()->is('campeonatos*') ? 'true' : 'false' }}">
-                    <span><i class="bi bi-trophy me-2"></i> Campeonatos</span>
-                    <i class="bi bi-chevron-down small"></i>
+                <a class="nav-link {{ request()->is('campeonatos*') ? 'active' : '' }}" href=" {{ route('campeonatos.index') }}">
+                    <i class="bi bi-trophy me-2"></i> Campeonatos
                 </a>
-                <div class="collapse ps-3 {{ request()->is('campeonatos*') ? 'show' : '' }}" id="submenuCampeonatos">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('campeonatos') ? 'active' : '' }}" href="{{ route('campeonatos.index') }}">
-                                <i class="bi bi-list me-1"></i> Listar
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('campeonatos/create') ? 'active' : '' }}" href="{{ route('campeonatos.create') }}">
-                                <i class="bi bi-plus-circle me-1"></i> Criar
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('jogadores*') ? 'active' : '' }}" href="#">
                     <i class="bi bi-person-fill me-2"></i> Jogadores
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{ route('perfil.edit', $user->id) }}" class="nav-link">
+                    <i class="bi bi-person-circle me-2"></i> Perfil
+                </a>
+            </li>
+        @endauth
         </ul>
 
+    @auth
         <!-- Botão de logout -->
         <form action="{{ route('logout') }}" method="POST" class="mt-3">
             @csrf
@@ -114,6 +114,7 @@
                 <i class="bi bi-box-arrow-right me-2"></i> Sair
             </button>
         </form>
+    @endauth
     </nav>
 
     <!-- Overlay para mobile -->
